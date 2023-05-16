@@ -3,7 +3,7 @@ import pygame as pg
 
 pg.init() # initialise pygame objects
 
-screen = pg.display.set_mode((0, 0), pg.FULLSCREEN) #créer une fenetre d'une taille (x,y)
+screen = pg.display.set_mode((1366, 768), pg.FULLSCREEN) #créer une fenetre d'une taille (x,y)
 pg.display.set_caption('Space Invaders') #change le nom de la fenetre créée
 
 
@@ -19,17 +19,26 @@ class ColorsRGB:
     Magenta =(255,0,255)
     White = (255,255,255)
 
+"""class forme:
+    def __init__(self,squid:entity,)
+    if self.squid.etat=="""
 class forme:
-    squid=pg.image.load('squid.png')
-    #squid=pg.transform.scale_by(squid,5) #multiplie par 5 taille squid
-    crab=pg.image.load('crab.png')
-    #crab=pg.transform.scale_by(crab,5) #multiplie par 5 taille squid
-    octopus=pg.image.load('octopus.png')
-    #octopus=pg.transform.scale_by(octopus,5) #multiplie par 5 taille squid
+    squid1=pg.image.load('squid1.png')
+
+    crab1=pg.image.load('crab1.png')
+
+    octopus1=pg.image.load('octopus1.png')
+
+    squid2=pg.image.load('squid2.png')
+
+    crab2=pg.image.load('crab2.png')
+
+    octopus2=pg.image.load('octopus2.png')
+
+
     UFO=pg.image.load('UFO.png')
-    #UFO=pg.transform.scale_by(UFO,5) #multiplie par 5 taille squi
+
     Laser=pg.image.load('Laser.png')
-    #Laser=pg.transform.scale_by(Laser,5) #multiplie par 5 taille squid
 
 
 class entity(pg.sprite.Sprite):
@@ -40,7 +49,7 @@ class entity(pg.sprite.Sprite):
         self.position = position
         self.rect = self.image.get_rect(center=(100,50))
 
-    """
+"""
     code de chat gpt
     self.mask = pg.mask.from_surface(pg.image.load(mask_file).convert_alpha())
 
@@ -69,12 +78,28 @@ class spaceinvaders:
         pg.init()"""
 
 
-squid0=entity(forme.squid, 1, (100,100))
-for i in range(0, 3):
-    for j in range(1, 4):
-        nb=3*i+j
-        autoEnnemie="squid" + str(nb) #nom nouvelle ennemie
-        globals()[autoEnnemie] = entity(forme.squid, 1,(100+j*50,100))
+squid0=entity(forme.squid1, 1, (300,100))
+
+for i in range(0,5):
+    for j in range(1, 12):
+        if i==0:
+            nomennemie = "squid"
+            png=forme.squid1
+        elif i==1:
+            nomennemie = "crabA"
+            png = forme.crab1
+        elif i==2:
+            nomennemie = "crabB"
+            png = forme.crab1
+        elif i==3:
+            nomennemie = "octopusA"
+            png = forme.octopus1
+        else:
+            nomennemie="octopusB"
+            png = forme.octopus1
+
+        autoEnnemie=nomennemie + str(j) #nom nouvelle ennemie
+        globals()[autoEnnemie] = entity(png, 1,(squid0.position[0]+png.get_width()*j+10*j,squid0.position[1]+i*60))
 
 def scoreboard():
     font = pg.font.SysFont(None, 24)
@@ -93,22 +118,30 @@ def scoreboard():
 
 
 #je créer mes entités
-squid=entity(forme.squid, 1, (100,100))
-crab=entity(forme.crab, 1, (100,142))
-octopus=entity(forme.octopus, 1, (100,184))
+crab=entity(forme.crab1, 1, (100,142))
+octopus=entity(forme.octopus1, 1, (100,184))
 UFO=entity(forme.UFO, 1, (100,10))
 Laser=entity(forme.Laser, 3, (100,500))
 
 while True:
-    for i in range(1, 9):
-        inst_name ="squid"+str(i)
-        screen.blit(forme.squid, globals()[inst_name].position)
-    screen.blit(squid.image, squid.position)
-    screen.blit(crab.image, crab.position)
+    for i in range(0, 5):
+        for j in range(1, 12):
+            if i == 0:
+                nomennemie = "squid"
+            elif i == 1:
+                nomennemie = "crabA"
+            elif i == 2:
+                nomennemie = "crabB"
+            elif i == 3:
+                nomennemie = "octopusA"
+            else:
+                nomennemie = "octopusB"
+            inst_name = nomennemie + str(j)
+            screen.blit(globals()[inst_name].image, globals()[inst_name].position)
+
     screen.blit(octopus.image, octopus.position)
     screen.blit(UFO.image, UFO.position)
     screen.blit(Laser.image, Laser.position)
-
     scoreboard()
     for event in pg.event.get():
         if event.type == pg.QUIT:
