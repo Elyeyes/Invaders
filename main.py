@@ -42,12 +42,14 @@ class forme:
 
 
 class entity(pg.sprite.Sprite):
-    def __init__(self, image, life, position):
+    def __init__(self, image, life, position,velocity=2):
         super().__init__()
         self.image = image
         self.life = life
         self.position = position
+        self.velocity = velocity
         self.rect = self.image.get_rect(center=(100,50))
+
 
 """
     code de chat gpt
@@ -78,28 +80,32 @@ class spaceinvaders:
         pg.init()"""
 
 
-squid0=entity(forme.squid1, 1, (300,100))
+octopus0=entity(forme.octopus1, 1, (300,100)) #initialise une entité servant de référence pour la position de toutes les autres
 
 for i in range(0,5):
     for j in range(1, 12):
         if i==0:
             nomennemie = "squid"
             png=forme.squid1
+            mul=8
         elif i==1:
             nomennemie = "crabA"
             png = forme.crab1
+            mul = 2
         elif i==2:
             nomennemie = "crabB"
             png = forme.crab1
+            mul = 2
         elif i==3:
             nomennemie = "octopusA"
             png = forme.octopus1
+            mul=0
         else:
             nomennemie="octopusB"
             png = forme.octopus1
-
+            mul = 0
         autoEnnemie=nomennemie + str(j) #nom nouvelle ennemie
-        globals()[autoEnnemie] = entity(png, 1,(squid0.position[0]+png.get_width()*j+10*j,squid0.position[1]+i*60))
+        globals()[autoEnnemie] = entity(png, 1,(octopus0.position[0]+j*58+mul,octopus0.position[1]+i*60))
 
 def scoreboard():
     font = pg.font.SysFont(None, 24)
@@ -118,8 +124,6 @@ def scoreboard():
 
 
 #je créer mes entités
-crab=entity(forme.crab1, 1, (100,142))
-octopus=entity(forme.octopus1, 1, (100,184))
 UFO=entity(forme.UFO, 1, (100,10))
 Laser=entity(forme.Laser, 3, (100,500))
 
@@ -139,7 +143,6 @@ while True:
             inst_name = nomennemie + str(j)
             screen.blit(globals()[inst_name].image, globals()[inst_name].position)
 
-    screen.blit(octopus.image, octopus.position)
     screen.blit(UFO.image, UFO.position)
     screen.blit(Laser.image, Laser.position)
     scoreboard()
