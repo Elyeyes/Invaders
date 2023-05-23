@@ -1,54 +1,83 @@
-#import sys
+# import sys
 import pygame as pg
 
-pg.init() # initialise pygame objects
+pg.init()  # initialise pygame objects
+screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25), pg.FULLSCREEN)  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
+pg.display.set_caption('Space Invaders')  # change le nom de la fenetre créée
 
-screen = pg.display.set_mode((1366, 768), pg.FULLSCREEN) #créer une fenetre d'une taille (x,y)
-pg.display.set_caption('Space Invaders') #change le nom de la fenetre créée
+pixelfont = "Pixel Coleco.otf"
+velocity_ennemie = 5
+velocity_joueur = 1
+variable_score = 0
 
 
-
-#définie les couleurs en bash
+# définie les couleurs en bash
 class ColorsRGB:
-    Black = (0,0,0)
-    Red = (255,0,0)
-    Green = (0,255,0)
-    Yellow = (255,255,0)
-    Blue = (0,0,255)
-    Cyan = (0, 255, 255)
-    Magenta =(255,0,255)
-    White = (255,255,255)
+    Black = (0, 0, 0)
+    Red = (255, 0, 0)
+    Green = (0, 255, 0)
+    Yellow = (255, 255, 0)
+    Blue = (0, 0, 255)
+    Purple = (102, 0, 102)
+    Magenta = (255, 0, 255)
+    White = (255, 255, 255)
 
-"""class forme:
-    def __init__(self,squid:entity,)
+
+"""class Forme:
+    def __init__(self,squid:Entity,)
     if self.squid.etat=="""
-class forme:
-    squid1=pg.image.load('squid1.png')
-
-    crab1=pg.image.load('crab1.png')
-
-    octopus1=pg.image.load('octopus1.png')
-
-    squid2=pg.image.load('squid2.png')
-
-    crab2=pg.image.load('crab2.png')
-
-    octopus2=pg.image.load('octopus2.png')
 
 
-    UFO=pg.image.load('UFO.png')
+class Forme:
+    squid1 = pg.image.load('squid1.png')
+    crab1 = pg.image.load('crab1.png')
+    octopus1 = pg.image.load('octopus1.png')
+    squid2 = pg.image.load('squid2.png')
+    crab2 = pg.image.load('crab2.png')
+    octopus2 = pg.image.load('octopus2.png')
+    UFO = pg.image.load('UFO.png')
+    Laser = pg.image.load('Laser.png')
 
-    Laser=pg.image.load('Laser.png')
 
-
-class entity(pg.sprite.Sprite):
-    def __init__(self, image, life, position,velocity=2):
-        super().__init__()
+class Entity:
+    def __init__(self, name, image, life, position, velocity):
+        self.name = name
         self.image = image
         self.life = life
         self.position = position
         self.velocity = velocity
-        self.rect = self.image.get_rect(center=(100,50))
+
+
+# sous-classe joueur
+class joueur(Entity):
+    score_joueur = 0
+
+    # fonction déplacement du joueur
+    def deplacement(self):
+        if pg.key.get_pressed():
+            if 400 / 1.25 <= self.position[0] <= 1520 / 1.25 - 60:
+                if pg.key.get_pressed()[pg.K_RIGHT]:
+                    self.position = (self.position[0] + self.velocity, self.position[1])
+                if pg.key.get_pressed()[pg.K_LEFT]:
+                    self.position = (self.position[0] - self.velocity, self.position[1])
+
+            elif self.position[0] <= 400 / 1.25:
+                self.position = (400 / 1.25, self.position[1])
+
+            elif 1520 / 1.25 - 60 <= self.position[0]:
+                self.position = (1520 / 1.25 - 60, self.position[1])
+
+
+# sous-classe ennemie
+class Ennemie(Entity):
+    # fonction déplacement des ennemis
+    def deplacement(self):
+        self.position = (self.position[0] + self.velocity, self.position[1])
+
+
+class UFO(Entity):
+    def deplacement(self):
+        self.position = (self.position[0] + self.velocity, self.position[1])
 
 
 """
@@ -72,62 +101,45 @@ class block:
         self.pixel=pixel
 
 
-        
+
 
 
 class spaceinvaders:
     def __init__(self):
         pg.init()"""
 
-
-octopus0=entity(forme.octopus1, 1, (300,100)) #initialise une entité servant de référence pour la position de toutes les autres
-
-for i in range(0,5):
-    for j in range(1, 12):
-        if i==0:
-            nomennemie = "squid"
-            png=forme.squid1
-            mul=8
-        elif i==1:
-            nomennemie = "crabA"
-            png = forme.crab1
-            mul = 2
-        elif i==2:
-            nomennemie = "crabB"
-            png = forme.crab1
-            mul = 2
-        elif i==3:
-            nomennemie = "octopusA"
-            png = forme.octopus1
-            mul=0
-        else:
-            nomennemie="octopusB"
-            png = forme.octopus1
-            mul = 0
-        autoEnnemie=nomennemie + str(j) #nom nouvelle ennemie
-        globals()[autoEnnemie] = entity(png, 1,(octopus0.position[0]+j*58+mul,octopus0.position[1]+i*60))
-
-def scoreboard():
-    font = pg.font.SysFont(None, 24)
-    Score = font.render('Life:'+str(Laser.life), True, 'White')
-    screen.blit(Score, (20, 20))
-    """if (condition collision):
-        life=life-1
-    if (condition collision squid):
-        score=score+30
-    if (condition collision crab):
-        score=score+20
-    if (condition collision octopus):
-        score=score+10
-    if (condition collision UFO):
-        score=score+100"""
+UFO = UFO("UFO", Forme.UFO, 1, (50, 10), velocity_ennemie)
+Laser = joueur("Laser", Forme.Laser, 3, (744, 800), velocity_joueur)
 
 
-#je créer mes entités
-UFO=entity(forme.UFO, 1, (100,10))
-Laser=entity(forme.Laser, 3, (100,500))
-
-while True:
+# génération automatique des rangées d'ennemies
+def autogeneration():
+    octopus0 = Ennemie("octopus0", Forme.octopus1, 1, (430, 180), velocity_ennemie)  # initialise une entité servant de référence pour la position de toutes les autres
+    for i in range(0, 5):
+        for j in range(1, 12):
+            if i == 0:
+                nomennemie = "squid"
+                png = Forme.squid1
+                mul = 8
+            elif i == 1:
+                nomennemie = "crabA"
+                png = Forme.crab1
+                mul = 2
+            elif i == 2:
+                nomennemie = "crabB"
+                png = Forme.crab1
+                mul = 2
+            elif i == 3:
+                nomennemie = "octopusA"
+                png = Forme.octopus1
+                mul = 0
+            else:
+                nomennemie = "octopusB"
+                png = Forme.octopus1
+                mul = 0
+            autoennemie = nomennemie + str(j)  # nom nouvelle ennemie
+            globals()[autoennemie] = Ennemie(autoennemie, png, 1, (octopus0.position[0] + j * 58 + mul, octopus0.position[1] + i * 60), velocity_ennemie)
+    # Affichage auto des ennemies précédement créée
     for i in range(0, 5):
         for j in range(1, 12):
             if i == 0:
@@ -143,15 +155,51 @@ while True:
             inst_name = nomennemie + str(j)
             screen.blit(globals()[inst_name].image, globals()[inst_name].position)
 
-    screen.blit(UFO.image, UFO.position)
-    screen.blit(Laser.image, Laser.position)
-    scoreboard()
+
+# fonction scoreboard
+def scoreboard():
+    nbvie = pg.font.Font(pixelfont, 30)  # création d'un font
+    affichagevie = nbvie.render('Life:' + str(Laser.life), True, 'White')  # ajout d'un texte sur le font
+    screen.blit(affichagevie, (20, 20))  # affichage du font
+    score = pg.font.Font(pixelfont, 30)  # création d'un font
+    affichagescore = score.render('Score:' + str(variable_score), True, 'White')  # ajout d'un texte sur le font
+    screen.blit(affichagescore, (20, 50))  # affichage du font
+
+    """if (condition collision):
+        life=life-1
+    if (condition collision squid):
+        score=score+30
+    if (condition collision crab):
+        score=score+20
+    if (condition collision octopus):
+        score=score+10
+    if (condition collision UFO):
+        score=score+100"""
+
+
+def affichage():
+    screen.fill("black")
+    autogeneration()
+    screen.blit(UFO.image, UFO.position)  # affichage de l'UFO
+    screen.blit(Laser.image, Laser.position)  # affichage du joueur
+    # créer les bordures
+    screen.fill("black", (0, 0, 400 / 1.25, 1080 / 1.25))
+    screen.fill("black", (1520 / 1.25, 0, 400 / 1.25, 1080 / 1.25))
+    scoreboard()  # appel de la fonction scoreboard
+    if Laser.life <= 0:
+        screen.fill(ColorsRGB.Purple)  # game over temporaire
+
+
+while True:
+    affichage()
+    pg.display.update()
+    pg.time.Clock().tick(500)
+    pg.key.set_repeat(1)  # Permet au touche du clavier de continuer de fonctionner une fois enfoncé
     for event in pg.event.get():
+        Laser.deplacement()  # appel fonction déplacement dans class joueur (pour le Laser)
+        if event.type == pg.MOUSEBUTTONDOWN:
+            print(pg.mouse.get_pos())
+            Laser.life = Laser.life - 1
         if event.type == pg.QUIT:
             pg.quit()
             quit()
-    pg.display.update()
-
-
-
-
