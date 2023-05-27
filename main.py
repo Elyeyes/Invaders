@@ -2,7 +2,7 @@
 import pygame as pg
 
 pg.init()  # initialise pygame objects
-screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25), pg.FULLSCREEN)  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
+screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25))  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
 pg.display.set_caption('Space Invaders')  # change le nom de la fenetre créée
 
 pixelfont = "Pixel Coleco.otf"
@@ -37,6 +37,16 @@ class Forme:
     octopus2 = pg.image.load('octopus2.png')
     UFO = pg.image.load('UFO.png')
     Laser = pg.image.load('Laser.png')
+
+class Projectiles(pg.sprite.Sprite):
+    def __init__(self, x, y):
+        pg.sprite.Sprite.__init__(self)
+        self.image = pg.image.load('projectile.png')
+        self.rect = self.image.get_rect()
+        self.rect.center = [x, y]
+
+    def update(self):
+        self.rect.y = -5
 
 
 class Entity:
