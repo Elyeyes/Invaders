@@ -1,11 +1,9 @@
 # import sys
-import pygame as pg
 from overlay import *
-
 
 pg.init()  # initialise pygame objects
 pg.display.set_caption('Space Invaders')  # change le nom de la fenetre créée
-clock = pg.time.Clock()
+
 
 
 class Projectile(pg.sprite.Sprite):
@@ -19,7 +17,6 @@ class Projectile(pg.sprite.Sprite):
 
     def update(self):
         self.rect.y = -5
-
 
 
 """
@@ -50,15 +47,9 @@ class spaceinvaders:
     def __init__(self):
         pg.init()"""
 
-
-
-
-
-
 """if (condition collision):
         life=life-1
-if (condition collision squid):
-    score=score+30
+if (condition collision squid):x²
 if (condition collision crab):
     score=score+20
 if (condition collision octopus):
@@ -67,7 +58,6 @@ if (condition collision UFO):
     score=score+100"""
 
 
-autogeneration()
 
 def quitter():
     if event.type == pg.MOUSEBUTTONDOWN:
@@ -77,12 +67,18 @@ def quitter():
         pg.quit()
         quit()
 
+seuil = pg.time.get_ticks()
+autogeneration()
 while True:
+    temps = pg.time.get_ticks()
     affichage()
+    if temps - seuil > delai:
+        deplacementennemie(pg.Rect(1520 / 1.25, 0, 400 / 1.25, 1080 / 1.25), pg.Rect(0, 0, 400 / 1.25, 1080 / 1.25))
+        seuil = temps
+    UFO.deplacement()
     pg.display.update()
     for event in pg.event.get():
         Laser.deplacement()  # appel fonction déplacement dans class joueur (pour le Laser)
-        #pg.draw.rect(screen, "red", Laser.hitbox1)
-        #pg.draw.rect(screen, "red", Laser.hitbox2)
+        # pg.draw.rect(screen, "red", Laser.hitbox1)
+        # pg.draw.rect(screen, "red", Laser.hitbox2)
         quitter()
-        pg.key.set_repeat(1)  # Permet au touche du clavier de continuer de fonctionner une fois enfoncé

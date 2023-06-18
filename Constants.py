@@ -1,7 +1,15 @@
 import pygame as pg
 
+vitesse_ennemie = 10
+vitesse_joueur = 1
+variable_score = 0
+vitesse_horizontale = 10
+
+delai=800
+
 screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25))  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
 pixelfont = "Pixel Coleco.otf"
+
 
 # définie les couleurs en bash
 class ColorsRGB:
