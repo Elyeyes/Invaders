@@ -5,13 +5,13 @@ vitesse_joueur = 1
 variable_score = 0
 vitesse_horizontale = 10
 
-delai=600
+delai = 600
 
 width = 1920 / 1.25
 height = 1080 / 1.25
 
 screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25))  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
-pixelfont = "Police/Pixel Coleco.otf"
+pixelfont = "Police/Pixel Coleco.otf" # Définit la police d'écriture qui sera utilisée
 
 # définie les couleurs en bash
 class ColorsRGB:
@@ -24,6 +24,7 @@ class ColorsRGB:
     Magenta = (255, 0, 255)
     White = (255, 255, 255)
 
+"Instanciation des différentes images utilisées"
 class Forme:
     squid1 = pg.image.load('Images/squid1.png')
     crab1 = pg.image.load('Images/crab1.png')
