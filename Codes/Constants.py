@@ -5,11 +5,10 @@ vitesse_joueur = 1
 variable_score = 0
 vitesse_horizontale = 10
 
-delai=800
+delai=600
 
 screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25))  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
-pixelfont = "Pixel Coleco.otf"
-
+pixelfont = "Police/Pixel Coleco.otf"
 
 # définie les couleurs en bash
 class ColorsRGB:
@@ -23,12 +22,12 @@ class ColorsRGB:
     White = (255, 255, 255)
 
 class Forme:
-    squid1 = pg.image.load('squid1.png')
-    crab1 = pg.image.load('crab1.png')
-    octopus1 = pg.image.load('octopus1.png')
-    squid2 = pg.image.load('squid2.png')
-    crab2 = pg.image.load('crab2.png')
-    octopus2 = pg.image.load('octopus2.png')
-    UFO = pg.image.load('UFO.png')
-    Laser = pg.image.load('Laser.png')
-    Projectile = pg.image.load('projectile.png')
+    squid1 = pg.image.load('Images/squid1.png')
+    crab1 = pg.image.load('Images/crab1.png')
+    octopus1 = pg.image.load('Images/octopus1.png')
+    squid2 = pg.image.load('Images/squid2.png')
+    crab2 = pg.image.load('Images/crab2.png')
+    octopus2 = pg.image.load('Images/octopus2.png')
+    UFO = pg.image.load('Images/UFO.png')
+    Laser = pg.image.load('Images/Laser.png')
+    Projectile = pg.image.load('Images/projectile.png')

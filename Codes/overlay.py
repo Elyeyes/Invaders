@@ -21,10 +21,10 @@ def scoreboard():
     score = pg.font.Font(pixelfont, 30)  # création d'un font
     affichagescore = score.render('Score:' + str(variable_score), True, 'White')  # ajout d'un texte sur le font
     screen.blit(affichagescore, (20, 50))  # affichage du font
-    time_elapsed = pg.time.get_ticks()
-    font = pg.font.Font(pixelfont, 40)
-    text = font.render('Time Elapsed: {} ms'.format(time_elapsed), True, "white")
-    screen.blit(text, (0, 200))
+    # time_elapsed = pg.time.get_ticks()
+    # font = pg.font.Font(pixelfont, 40)
+    # text = font.render('Time Elapsed: {} ms'.format(time_elapsed), True, "white")
+    # screen.blit(text, (0, 200))
 
 
 
@@ -32,18 +32,29 @@ def affichage():
     screen.fill("black")
     bordure_gauche = pg.Rect(0, 0, 400 / 1.25, 1080 / 1.25)
     bordure_droite = pg.Rect(1520 / 1.25, 0, 400 / 1.25, 1080 / 1.25)
-    pg.draw.rect(screen, "blue", bordure_gauche)
-    pg.draw.rect(screen, "blue", bordure_droite)
+    # créer les bordures
+    pg.draw.rect(screen, "black", bordure_gauche)
+    pg.draw.rect(screen, "black", bordure_droite)
+    autoaffichage()
+    screen.blit(UFO.image, UFO.position)  # affichage de l'UFO
+    screen.blit(Laser.image, Laser.position)  # affichage du Laser
+    Laser.tir(Projectile_allie)
     for i in range(0, 4):
         nom = ((370 + i * 225, 570), (390 + i * 225, 550), (470 + i * 225, 550), (490 + i * 225, 570),
                (490 + i * 225, 670), (470 + i * 225, 670), (450 + i * 225, 650), (410 + i * 225, 650),
                (390 + i * 225, 670), (370 + i * 225, 670))
         pg.draw.polygon(screen, "green", nom)
-    screen.blit(UFO.image, UFO.position)  # affichage de l'UFO
-    screen.blit(Laser.image, Laser.position)  # affichage du Laser
-    # créer les bordures
-    autoaffichage()
+
+
+
+
     scoreboard()  # appel de la fonction scoreboard
 
-    if Laser.life <= 0:
-        game_over_screen()  # game over temporaire
+
+
+
+
+
+
+
+
