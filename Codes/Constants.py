@@ -7,6 +7,9 @@ vitesse_horizontale = 10
 
 delai=600
 
+width = 1920 / 1.25
+height = 1080 / 1.25
+
 screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25))  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
 pixelfont = "Police/Pixel Coleco.otf"
 
