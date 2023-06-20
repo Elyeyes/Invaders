@@ -1,12 +1,13 @@
 from Entity import *
 
-UFO = Ufo("UFO", Forme.UFO, 1, (50, 10), vitesse_ennemie)
-Laser = Joueur("Laser", Forme.Laser, 3, (744, 800), vitesse_joueur)
-Projectile_allie = Projectile((0, 0), Forme.Projectile)
+ufo = Ufo("UFO", Forme.UFO, 1, (50, 10), vitesse_ennemie)
+laser = Joueur("Laser", Forme.Laser, 3, (744, 800), vitesse_joueur)
+projectile_allie = Projectile((0, 0), Forme.Projectile)
 
-# génération automatique des rangées d'ennemies
 octopus0 = Ennemie((0, 0), "octopus0", Forme.octopus1, 1, (420, 150), vitesse_ennemie)  # initialise une entité servant de référence pour la position de toutes les autres
 def autogeneration():
+    """Génère automatiquement des rangées d'ennemies
+    """
     for i in range(0, 5):
         for j in range(1, 12):
             if i == 0:
@@ -38,7 +39,9 @@ def autogeneration():
             autoennemie = nomennemie + str(j)  # nom nouvelle ennemie
             globals()[autoennemie] = Ennemie(size, autoennemie, png, 1, (octopus0.position[0] + j * 58 + mul, octopus0.position[1] + i * 60), vitesse_ennemie)
 
-def autoaffichage():  # Affichage auto des ennemies précédement créée
+def autoaffichage():
+    """Affiche automatiquement les ennemies précédement créés
+    """
     for i in range(0, 5):
         for j in range(1, 12):
             if i == 0:
@@ -58,6 +61,15 @@ def autoaffichage():  # Affichage auto des ennemies précédement créée
 
 
 def deplacement_ennemie(bordure_droite, bordure_gauche):
+    """Permet le deplacement des ennemies horizontalements et lors d'un contact avec une bordure, ils changent de direction et avancent vers le joueur.
+
+    Parameters
+    ----------
+    bordure_droite : rect
+        zone que les ennemies ne pourront pas dépasser par la droite
+    bordure_gauche : rect
+        zone que les ennemies ne pourront pas dépasser par la gauche
+    """
     octopus0.deplacement()
     for i in range(4, -1, -1):
         for j in range(11, 0, -1):
@@ -99,10 +111,12 @@ def deplacement_ennemie(bordure_droite, bordure_gauche):
             globals()[ennemie_deplace].hitbox_mouvement()
 
 def collision(Projectile_allie):
-    """
+    """Permet la collision entre le projectile et les ennemies
 
-    :param Projectile_allie:
-    :return:
+    Parameters
+    ----------
+    Projectile_allie : class
+        projectile que le joueur tir
     """
     for i in range(0, 5):
         for j in range(1, 12):

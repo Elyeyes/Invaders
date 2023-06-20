@@ -1,6 +1,8 @@
 from generation import *
 
 def menu_screen(): 
+    """Permet l'affichage des éléments présents sur le menu
+    """
     screen.fill((0,0,0))
     font = pg.font.SysFont(pixelfont, 40)
     mouse = pg.mouse.get_pos()
@@ -39,6 +41,8 @@ def menu_screen():
     screen.blit(logo, (1920 / 1.25 /2 - logo.get_width()/2, 1080 / 1.25 /2 - 1.5*logo.get_height()))
 
 def game_over_screen():
+    """Permet l'affichage des éléments présents sur l'écran de game over
+    """
     screen.fill((0, 0, 0))
     font = pg.font.SysFont('arial', 40)
     title = font.render('Game Over', True, (255, 255, 255))
@@ -52,8 +56,10 @@ def game_over_screen():
 
 # fonction scoreboard
 def scoreboard():
+    """Permet l'affichage des informations utiles pour le joueur
+    """
     nbvie = pg.font.Font(pixelfont, 30)  # création d'un font
-    affichagevie = nbvie.render('Life:' + str(Laser.life), True, 'White')  # ajout d'un texte sur le font
+    affichagevie = nbvie.render('Life:' + str(laser.life), True, 'White')  # ajout d'un texte sur le font
     screen.blit(affichagevie, (20, 20))  # affichage du font
     score = pg.font.Font(pixelfont, 30)  # création d'un font
     affichagescore = score.render('Score:' + str(variable_score), True, 'White')  # ajout d'un texte sur le font
@@ -66,6 +72,8 @@ def scoreboard():
 
 
 def affichage():
+    """Permet l'affichage du menu, du jeu et de l'écran de game over au bon mement
+    """
     menu_screen()
     if pg.key.get_pressed()[pg.K_SPACE]:
 
@@ -76,9 +84,9 @@ def affichage():
         pg.draw.rect(screen, "black", bordure_gauche)
         pg.draw.rect(screen, "black", bordure_droite)
         autoaffichage()
-        screen.blit(UFO.image, UFO.position)  # affichage de l'UFO
-        screen.blit(Laser.image, Laser.position)  # affichage du Laser
-        Laser.tir(Projectile_allie)
+        screen.blit(ufo.image, ufo.position)  # affichage de l'UFO
+        screen.blit(laser.image, laser.position)  # affichage du Laser
+        laser.tir(projectile_allie)
         for i in range(0, 4):
             nom = ((370 + i * 225, 570), (390 + i * 225, 550), (470 + i * 225, 550), (490 + i * 225, 570),
                 (490 + i * 225, 670), (470 + i * 225, 670), (450 + i * 225, 650), (410 + i * 225, 650),

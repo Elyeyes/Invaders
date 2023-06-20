@@ -6,9 +6,11 @@ pg.init()  # initialise pygame objects
 pg.display.set_caption('Space Invaders')  # change le nom de la fenetre créée
 
 def quitter(event):
+    """Permet la fermeture de la fenetre créée au lancement du programme
+    """
     if event.type == pg.MOUSEBUTTONDOWN:
         print(pg.mouse.get_pos())
-        Laser.life = Laser.life - 1
+        laser.life = laser.life - 1
     if event.type == pg.QUIT:
         pg.quit()
         quit()
@@ -32,27 +34,35 @@ delai2 = 5
 autogeneration()
 
 
-
 def space_invaders(seuil, seuil2):
+    """Permet de lancer une fenetre et d'y faire fonctionner le jeu
+
+    Parameters
+    ----------
+    seuil1 : int
+        nombre de milliseconds depuis le lancement du programme
+    seuil2 : int
+        nombre de milliseconds depuis le lancement du programme
+    """
     autogeneration()
     while True:
         temps = pg.time.get_ticks()
-        collision(Projectile_allie)
-        if Laser.life > 0:
+        collision(projectile_allie)
+        if laser.life > 0:
             affichage()
-        elif Laser.life <= 0:
+        elif laser.life <= 0:
             game_over_screen()  # game over temporaire
         if temps - seuil > delai:
             deplacement_ennemie(pg.Rect(1520 / 1.25, 0, 400 / 1.25, 1080 / 1.25), pg.Rect(0, 0, 400 / 1.25, 1080 / 1.25))
             seuil = temps
-        UFO.deplacement()
+        ufo.deplacement()
 
         pg.display.update()
         if temps - seuil2 > delai2:
             seuil2 = temps
 
         for event in pg.event.get():
-            Laser.deplacement()  # appel fonction déplacement dans class joueur (pour le Laser)
+            laser.deplacement()  # appel fonction déplacement dans class joueur (pour le Laser)
             # pg.draw.rect(screen, "red", Laser.hitbox1)
             # pg.draw.rect(screen, "red", Laser.hitbox2)
             quitter(event)
