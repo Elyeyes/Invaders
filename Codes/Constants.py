@@ -1,17 +1,20 @@
 import pygame as pg
+import random
 
-vitesse_ennemie = 10
-vitesse_joueur = 1
-variable_score = 0
-vitesse_horizontale = 10
+class Constants:
+    vitesse_ennemie = 10
+    vitesse_joueur = 5
+    variable_score = 0
+    vitesse_horizontale = 34
+    seuil = pg.time.get_ticks()
+    seuil2 = 0
+    delai = 600
+    delai2 = random.randint(15000, 20000)
+    temps = pg.time.get_ticks()
 
-delai = 600
-
-width = 1920 / 1.25
-height = 1080 / 1.25
 
 screen = pg.display.set_mode((1920 / 1.25, 1080 / 1.25))  # créer une fenetre d'une taille (x,y), #on divise par 1.25 car la mise à l'echelle et de 125%
-pixelfont = "Police/Pixel Coleco.otf" # Définit la police d'écriture qui sera utilisée
+pixelfont = "Police/Pixel Coleco.otf"
 
 # définie les couleurs en bash
 class ColorsRGB:
@@ -24,7 +27,6 @@ class ColorsRGB:
     Magenta = (255, 0, 255)
     White = (255, 255, 255)
 
-"Instanciation des différentes images utilisées"
 class Forme:
     squid1 = pg.image.load('Images/squid1.png')
     crab1 = pg.image.load('Images/crab1.png')
@@ -35,3 +37,4 @@ class Forme:
     UFO = pg.image.load('Images/UFO.png')
     Laser = pg.image.load('Images/Laser.png')
     Projectile = pg.image.load('Images/projectile.png')
+    Explosion = pg.image.load('Images/Explosion.png')

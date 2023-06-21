@@ -1,48 +1,7 @@
-from generation import *
+from collision import *
 
-def menu_screen(): 
-    """Permet l'affichage des éléments présents sur le menu
-    """
-    screen.fill((0,0,0))
-    font = pg.font.SysFont(pixelfont, 40)
-    mouse = pg.mouse.get_pos()
-    click = pg.mouse.get_pressed()
-    play_txt = font.render('PLAY', True, (255,255, 255))
-    play_width = play_txt.get_width()
-    play_height = play_txt.get_height()
-    play = pg.transform.scale(play_txt, (int(play_width*3), int(play_height*3)))
-    quit_txt = font.render('QUIT', True, (255, 255, 255))
-    quit_width = quit_txt.get_width()
-    quit_height = quit_txt.get_height()
-    quit = pg.transform.scale(quit_txt, (int(quit_width*3), int(quit_height*3)))
-
-    if width / 2.8 <= mouse[0] <= width / 2.8 + 450 and height / 2 <= mouse[1] <= height / 2 + 100:
-        pg.draw.rect(screen, (58 , 60 , 64), [width / 2.8, height / 2, 450, 100], 0)
-            
-    else:
-        pg.draw.rect(screen, (79 , 82 , 87), [width / 2.8, height / 2, 450, 100], 0)
-        
-    
-    screen.blit(play, [screen.get_rect().centerx - 1.5*play_width, height / 2 + play_height/2])
-
-    if width / 2.8 <= mouse[0] <= width / 2.8 + 450 and height / 2 + 200 <= mouse[1] <= height / 2 + 300:
-        pg.draw.rect(screen, (58 , 60 , 64), [width / 2.8, height / 2 + 200, 450, 100], 0)
-          
-    else:
-        pg.draw.rect(screen, (79 , 82 , 87), [width / 2.8, height / 2 + 200, 450, 100], 0)
-    
-    
-    screen.blit(quit, [screen.get_rect().centerx - 1.5*quit_width, height / 2 + quit_height/2 + 200])
-    
-    logo_img = pg.image.load('Images/logo.png')
-    logo_width = logo_img.get_width()
-    logo_height = logo_img.get_height()
-    logo = pg.transform.scale(logo_img, (int(logo_width*0.6),int(logo_height*0.6)))
-    screen.blit(logo, (1920 / 1.25 /2 - logo.get_width()/2, 1080 / 1.25 /2 - 1.5*logo.get_height()))
 
 def game_over_screen():
-    """Permet l'affichage des éléments présents sur l'écran de game over
-    """
     screen.fill((0, 0, 0))
     font = pg.font.SysFont('arial', 40)
     title = font.render('Game Over', True, (255, 255, 255))
@@ -56,53 +15,48 @@ def game_over_screen():
 
 # fonction scoreboard
 def scoreboard():
-    """Permet l'affichage des informations utiles pour le joueur
-    """
     nbvie = pg.font.Font(pixelfont, 30)  # création d'un font
-    affichagevie = nbvie.render('Life:' + str(laser.life), True, 'White')  # ajout d'un texte sur le font
+    affichagevie = nbvie.render('Life:' + str(Laser.life), True, 'White')  # ajout d'un texte sur le font
     screen.blit(affichagevie, (20, 20))  # affichage du font
     score = pg.font.Font(pixelfont, 30)  # création d'un font
-    affichagescore = score.render('Score:' + str(variable_score), True, 'White')  # ajout d'un texte sur le font
+    affichagescore = score.render('Score:' + str(Joueur.score_joueur), True, 'White')  # ajout d'un texte sur le font
     screen.blit(affichagescore, (20, 50))  # affichage du font
-    # time_elapsed = pg.time.get_ticks()
-    # font = pg.font.Font(pixelfont, 40)
-    # text = font.render('Time Elapsed: {} ms'.format(time_elapsed), True, "white")
-    # screen.blit(text, (0, 200))
+    time_elapsed = pg.time.get_ticks()
+    font = pg.font.Font(pixelfont, 40)
+    text = font.render('Time Elapsed: {} ms'.format(time_elapsed), True, "white")
+    screen.blit(text, (0, 200))
 
 
-
+Explosion1 = Explosion((350, 600))
 def affichage():
-    """Permet l'affichage du menu, du jeu et de l'écran de game over au bon mement
-    """
-    menu_screen()
-    if pg.key.get_pressed()[pg.K_SPACE]:
-
-        screen.fill("black")
-        bordure_gauche = pg.Rect(0, 0, 400 / 1.25, 1080 / 1.25)
-        bordure_droite = pg.Rect(1520 / 1.25, 0, 400 / 1.25, 1080 / 1.25)
-        # créer les bordures
-        pg.draw.rect(screen, "black", bordure_gauche)
-        pg.draw.rect(screen, "black", bordure_droite)
-        autoaffichage()
-        screen.blit(ufo.image, ufo.position)  # affichage de l'UFO
-        screen.blit(laser.image, laser.position)  # affichage du Laser
-        laser.tir(projectile_allie)
-        for i in range(0, 4):
-            nom = ((370 + i * 225, 570), (390 + i * 225, 550), (470 + i * 225, 550), (490 + i * 225, 570),
-                (490 + i * 225, 670), (470 + i * 225, 670), (450 + i * 225, 650), (410 + i * 225, 650),
-                (390 + i * 225, 670), (370 + i * 225, 670))
-            pg.draw.polygon(screen, "green", nom)
+    screen.fill("black")
+    # créer les bordures
+    bordure_gauche = pg.Rect(0, 0, 400 / 1.25, 1080 / 1.25)
+    bordure_droite = pg.Rect(1520 / 1.25, 0, 400 / 1.25, 1080 / 1.25)
+    screen.blit(Projectile_allie.image, Projectile_allie.position)
+    screen.blit(Projectile_ennemie.image, Projectile_ennemie.position)
+    screen.blit(UFO.image, UFO.position)  # affichage de l'UFO
+    screen.blit(Laser.image, Laser.position)  # affichage du Laser
+    #affiche les bordures
+    pg.draw.rect(screen, "black", bordure_gauche)
+    pg.draw.rect(screen, "black", bordure_droite)
 
 
+    # pg.draw.polygon(screen, "white", explosion)
 
 
-        scoreboard()  # appel de la fonction scoreboard
+    autoaffichage()
+    Laser.tir(Projectile_allie)
+    ennemie_tir()
+    generation_obstacle()
+    screen.blit(Explosion1.image, Explosion1.position)
+    pg.draw.polygon(screen, "green", Obstacle0.area)
+    pg.draw.polygon(screen, "green", Obstacle1.area)
+    pg.draw.polygon(screen, "green", Obstacle2.area)
+    pg.draw.polygon(screen, "green", Obstacle3.area)
+    pg.draw.rect(screen, "red", Obstacle1.hitbox1)
+    pg.draw.rect(screen, "red", Obstacle1.hitbox2)
+    pg.draw.rect(screen, "red", Obstacle1.hitbox3)
+    Laser.deplacement()  # appel fonction déplacement dans class joueur (pour le Laser)
 
-
-
-
-
-
-
-
-
+    scoreboard()  # appel de la fonction scoreboard
